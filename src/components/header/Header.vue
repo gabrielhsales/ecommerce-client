@@ -6,7 +6,13 @@
           <h1 class="title is-3 is-flex-mobile"></h1>
         </router-link>
 
-        <a role="button" class="navbar-burger burger" @click="isMenuOpen = !isMenuOpen" aria-label="menu" aria-expanded="false">
+        <a
+          role="button"
+          class="navbar-burger burger"
+          @click="isMenuOpen = !isMenuOpen"
+          aria-label="menu"
+          aria-expanded="false"
+        >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -19,7 +25,7 @@
             <search-component></search-component>
           </div>
         </div>
-        
+
         <div class="navbar-end">
           <div class="navbar-item social">
             <a href="#" class="icon" :title="facebookTooltip">
@@ -58,54 +64,55 @@
 </template>
 
 <script>
-  import Menu from '../menu/Menu';
-  import Search from '../search/Search';
+import Menu from '../menu/Menu'
+import Search from '../search/Search'
 
-  export default {
-    name: 'header-component',
+export default {
+  name: 'header-component',
 
-    data () {
-      return {
-        linkedinTooltip: 'Follow us on Linkedin',
-        facebookTooltip: 'Follow us on Facebook',
-        twitterTooltip: 'Follow us on Twitter',
-        instagramTooltip: 'Follow us on Instagram',
-        isCheckoutActive: false,
-        isMenuOpen: false
-      }
-    },
-
-    computed: {
-      numProductsAdded () {
-        return this.$store.getters.productsAdded.length;
-      }
-    },
-
-    components: {
-      'search-component': Search,
-      'menu-component': Menu
-    },
-
-    methods: {
-      showCheckoutModal () {
-        this.$store.commit('showCheckoutModal', true);
-      }
+  data() {
+    return {
+      linkedinTooltip: 'Siga-nos no Linkedin',
+      facebookTooltip: 'Siga-nos no Facebook',
+      twitterTooltip: 'Siga-nos no Twitter',
+      instagramTooltip: 'Siga-nos no Instagram',
+      isCheckoutActive: false,
+      isMenuOpen: false
     }
-  };
+  },
+
+  computed: {
+    numProductsAdded() {
+      return 0
+      // return this.$store.getters.productsAdded.length
+    }
+  },
+
+  components: {
+    'search-component': Search,
+    'menu-component': Menu
+  },
+
+  methods: {
+    showCheckoutModal() {
+      this.$store.commit('showCheckoutModal', true)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-  .title {
-    background: url('../../../public/assets/vuemmerce-logo.png') no-repeat;
-    background-position: 50% 50%;
-    background-size: 165px;
-    width: 175px;
-    height: 35px;
-  }
-  .shopping-cart {
-    cursor: pointer;
-  }
-  a {
-    color: grey;
-  }
+.title {
+  background: url('../../../public/assets/vuemmerce-logo.png') no-repeat;
+  background-position: 50% 50%;
+  background-size: 165px;
+  width: 175px;
+  height: 35px;
+}
+.shopping-cart {
+  cursor: pointer;
+}
+a {
+  color: grey;
+}
 </style>

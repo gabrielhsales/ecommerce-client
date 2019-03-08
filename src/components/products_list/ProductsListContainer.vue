@@ -10,48 +10,47 @@
 </template>
 
 <script>
-import ProductsComponent from '../Products';
-import { getByTitle } from '../../filters';
+import ProductsComponent from '../Products'
+import { getByTitle } from '../../filters'
 
 export default {
   name: 'products-list-component',
-  
+
   components: {
     'products-component': ProductsComponent
   },
-  
-  data () {
+
+  data() {
     return {
       id: '',
-      noProductLabel: 'No product found',
+      noProductLabel: 'Nenhum produto disponível!',
       productsFiltered: []
-    };
+    }
   },
 
   computed: {
-    products () {
-      if (this.$store.state.userInfo.hasSearched) {
-        return this.getProductByTitle();
+    products() {
+      if (this.$store.state.user.hasSearched) {
+        return this.getProductByTitle()
       } else {
-        return this.$store.state.products;
+        return this.$store.state.products.data
       }
     }
   },
 
   methods: {
-    getProductByTitle () {
+    getProductByTitle() {
       let listOfProducts = this.$store.state.products,
-          titleSearched = this.$store.state.userInfo.productTitleSearched;
-      
-      return this.productsFiltered = getByTitle(listOfProducts, titleSearched);
+        titleSearched = this.$store.state.user.productTitleSearched
+
+      return (this.productsFiltered = getByTitle(listOfProducts, titleSearched))
     }
   }
-
-};
+}
 </script>
 
 <style lang="scss" scoped>
-  .card {
-    margin: 10px;
-  }
+.card {
+  margin: 10px;
+}
 </style>
