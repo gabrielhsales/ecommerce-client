@@ -1,9 +1,9 @@
 <template>
   <div class="columns is-centered is-multiline">
-    <div class="card column is-one-quarter" v-for="product in products" :key="product.id">
+    <div class="card column is-one-quarter" v-for="product in products.data" :key="product.id">
       <products-component :product="product"></products-component>
     </div>
-    <div class="section" v-if="products.length === 0">
+    <div class="section" v-if="products.data.length === 0">
       <p>{{ noProductLabel }}</p>
     </div>
   </div>
@@ -12,6 +12,7 @@
 <script>
 import ProductsComponent from '../Products'
 import { getByTitle } from '../../filters'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'products-list-component',
@@ -29,21 +30,18 @@ export default {
   },
 
   computed: {
-    products() {
-      if (this.$store.state.user.hasSearched) {
-        return this.getProductByTitle()
-      } else {
-        return this.$store.state.products.data
-      }
-    }
+    ...mapGetters({
+      products: 'products'
+    })
+  },
+
+  mounted() {
+    this.fetchProducts()
   },
 
   methods: {
-    getProductByTitle() {
-      let listOfProducts = this.$store.state.products,
-        titleSearched = this.$store.state.user.productTitleSearched
-
-      return (this.productsFiltered = getByTitle(listOfProducts, titleSearched))
+    fetchProducts() {
+      this.$store.dispatch('fetchProducts')
     }
   }
 }

@@ -1,3 +1,4 @@
+import { fetch } from '@/api/products'
 export default {
   state: {
     data: [],
@@ -5,7 +6,10 @@ export default {
   },
 
   mutations: {
-    SET_PRODUCTS: state => products => (state = products)
+    SET_PRODUCTS: (state, products) => {
+      state.data = products.data
+      state.pagination = products.pagination
+    }
   },
 
   actions: {

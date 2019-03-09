@@ -8,16 +8,11 @@ Vue.use(Vuex)
 import getters from './getters'
 import user from './modules/user'
 import products from './modules/products'
+import system from './modules/system'
 
 export default new Vuex.Store({
-  state: {
-    systemInfo: {
-      openLoginModal: false,
-      openSignupModal: false,
-      openCheckoutModal: false
-    }
-  },
   modules: {
+    system,
     user,
     products
   },

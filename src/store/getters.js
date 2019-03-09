@@ -1,5 +1,6 @@
 export default {
   user: state => state.user,
+  products: state => state.products,
   productsAdded: state => {
     return state.products.data
       ? state.products.data.filter(el => {
@@ -15,7 +16,7 @@ export default {
       : []
   },
   getProductById: state => id => {
-    return state.products.find(product => product.id === id)
+    return state.products.data.find(product => product.id === id)
   },
   isUserLoggedIn: state => {
     return state.user.token
@@ -27,13 +28,13 @@ export default {
     return state.user.name
   },
   isLoginModalOpen: state => {
-    return state.systemInfo.openLoginModal
+    return state.system.openLoginModal
   },
   isSignupModalOpen: state => {
-    return state.systemInfo.openSignupModal
+    return state.system.openSignupModal
   },
   isCheckoutModalOpen: state => {
-    return state.systemInfo.openCheckoutModal
+    return state.system.openCheckoutModal
   },
   quantity: state => {
     return state.products.quantity
