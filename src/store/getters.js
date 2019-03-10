@@ -1,5 +1,6 @@
 export default {
-  user: state => state.user,
+  user: state => state.user.user,
+  users: state => state.user,
   products: state => state.products,
   productsAdded: state => {
     return state.products.data

@@ -59,8 +59,8 @@
           <div v-if="isUserLoggedIn" class="level">
             <div class="level-item has-text-centered">
               <div>
-                <p class="title">Welcome back!</p>
-                <p class="heading">Now you are logged in</p>
+                <p class="title">Bem Vindo de Volta!</p>
+                <p class="heading">Boas Compras!</p>
               </div>
             </div>
           </div>
@@ -128,7 +128,10 @@ export default {
         this.highlightEmailWithError = false
         this.highlightPasswordWithError = false
         this.isFormSuccess = true
-        this.$store.commit('isUserLoggedIn', this.isFormSuccess)
+        this.$store.dispatch('login', {
+          email: this.email,
+          password: this.password
+        })
       }
 
       if (!this.email) {
@@ -159,6 +162,7 @@ export default {
         }
       }
     },
+
     checkPasswordOnKeyUp(passwordValue) {
       if (passwordValue) {
         this.highlightPasswordWithError = false
