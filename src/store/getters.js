@@ -20,7 +20,7 @@ export default {
     return state.products.data.find(product => product.id === id)
   },
   isUserLoggedIn: state => {
-    return state.user.token
+    return state.user.token !== ''
   },
   isUserSignedUp: state => {
     return state.user.isSignedUp

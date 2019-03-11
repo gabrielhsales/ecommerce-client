@@ -1,18 +1,18 @@
 import request from '@/utils/request'
 
-export function register({ email, password }) {
+export function register(user) {
   return request({
     url: '/auth/register',
     method: 'post',
-    data: { email, password }
+    data: user
   })
 }
 
-export function login(user) {
+export function login(email, password) {
   return request({
     url: '/auth/login',
     method: 'post',
-    data: user
+    data: { email, password }
   })
 }
 

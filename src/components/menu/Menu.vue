@@ -21,7 +21,7 @@
       </div>
     </div>
     <div v-if="isUserLoggedIn" class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">Welcome {{ getUserName }}</a>
+      <a class="navbar-link">Welcome {{ user.name }}</a>
       <div class="navbar-dropdown is-boxed">
         <router-link
           class="navbar-item"
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'menu-component',
   data() {
@@ -47,28 +49,20 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      user: 'user'
+    }),
     isUserLoggedIn() {
       return this.$store.getters.isUserLoggedIn
-    },
-    getUserName() {
-      let name = this.$store.getters.getUserName
-
-      if (name === '') {
-        return 'user'
-      } else {
-        return name
-      }
     }
   },
 
   methods: {
     logout() {
-      this.$store.commit('isUserLoggedIn', false)
-      this.$store.commit('isUserSignedUp', false)
-      this.$store.commit('removeProductsFromFavourite')
-
-      // redirect to homepage
-      this.$router.push({ name: 'homepage-component' })
+      this.$store.dispatch('logout').then(() => {
+        // redirect to homepage
+        this.$router.push({ name: 'homepage-component' })
+      })
     },
     showLoginModal() {
       this.$store.commit('showLoginModal', true)

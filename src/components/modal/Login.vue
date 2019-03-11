@@ -128,10 +128,14 @@ export default {
         this.highlightEmailWithError = false
         this.highlightPasswordWithError = false
         this.isFormSuccess = true
-        this.$store.dispatch('login', {
-          email: this.email,
-          password: this.password
-        })
+        this.$store
+          .dispatch('login', {
+            email: this.email,
+            password: this.password
+          })
+          .then(() => {
+            this.$store.dispatch('getUser')
+          })
       }
 
       if (!this.email) {

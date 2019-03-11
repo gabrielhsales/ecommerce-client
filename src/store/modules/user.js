@@ -25,6 +25,11 @@ export default {
 
     SET_USER: (state, user) => {
       state.user = user
+    },
+
+    SET_LOGOUT: state => {
+      state.token = ''
+      state.refresh_token = ''
     }
   },
 
@@ -51,10 +56,20 @@ export default {
           })
           .catch(e => reject(e))
       })
-    }
-  },
+    },
 
-  logout({ commit }) {
-    return new Promise((resolve, reject) => {})
+    logout({ commit }) {
+      return new Promise((resolve, reject) => {
+        logout({ refresh_token: getRefreshToken() })
+          .then(() => {
+            commit('SET_LOGOUT')
+            commit('SET_USER', {})
+            removeToken()
+            removeRefreshToken()
+            resolve()
+          })
+          .catch(e => reject(e))
+      })
+    }
   }
 }

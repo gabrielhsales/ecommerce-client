@@ -1,6 +1,6 @@
 import axios from 'axios'
-// import store from '@/store'
-// import { getToken, getRefreshToken } from '@/utils/auth'
+import store from '@/store'
+import { getToken, getRefreshToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -11,10 +11,10 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    /* if (store.getters.token) {
+    if (store.getters.isUserLoggedIn) {
       config.headers['Authorization'] = getToken()
       config.headers['refresh_token'] = getRefreshToken()
-    } */
+    }
     return config
   },
   error => {
