@@ -21,7 +21,7 @@
       </div>
     </div>
     <div v-if="isUserLoggedIn" class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">Welcome {{ user.name }}</a>
+      <a class="navbar-link">Olá, {{ user.name }}!</a>
       <div class="navbar-dropdown is-boxed">
         <router-link
           class="navbar-item"
