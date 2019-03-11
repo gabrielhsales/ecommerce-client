@@ -1,4 +1,5 @@
-import { login, getUser } from '@/api/user'
+import { getUser } from '@/api/user'
+import { login, logout } from '@/api/auth'
 
 import {
   getToken,
@@ -51,5 +52,9 @@ export default {
           .catch(e => reject(e))
       })
     }
+  },
+
+  logout({ commit }) {
+    return new Promise((resolve, reject) => {})
   }
 }

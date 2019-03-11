@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function register(user) {
+export function register({ email, password }) {
   return request({
-    url: 'auth/register',
+    url: '/auth/register',
     method: 'post',
-    data: user
+    data: { email, password }
   })
 }
 
 export function login(user) {
   return request({
-    url: 'auth/login',
+    url: '/auth/login',
     method: 'post',
     data: user
   })
@@ -18,7 +18,7 @@ export function login(user) {
 
 export function logout(refresh_token) {
   return request({
-    url: 'auth/logout',
+    url: '/auth/logout',
     method: 'post',
     data: { refresh_token }
   })
