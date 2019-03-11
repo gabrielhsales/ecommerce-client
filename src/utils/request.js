@@ -1,6 +1,9 @@
 import axios from 'axios'
+import NProgress from 'nprogress' // progress bar
 import store from '@/store'
 import { getToken, getRefreshToken } from '@/utils/auth'
+
+NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 // create an axios instance
 const service = axios.create({
@@ -11,6 +14,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
+    NProgress.start()
     if (store.getters.isUserLoggedIn) {
       config.headers['Authorization'] = getToken()
       config.headers['refresh_token'] = getRefreshToken()
@@ -18,6 +22,7 @@ service.interceptors.request.use(
     return config
   },
   error => {
+    NProgress.done()
     // Do something with request error
     console.log(error) // for debug
     Promise.reject(error)
@@ -26,9 +31,13 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  response => response,
+  response => {
+    NProgress.done()
+    return response
+  },
 
   error => {
+    NProgress.done()
     console.log('err' + error) // for debug
     return Promise.reject(error)
   }

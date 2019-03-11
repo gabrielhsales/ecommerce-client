@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Homepage from '../src/components/homepage/Homepage';
-import ProductDetail from '../src/components/product_detail/ProductDetail';
-import WishlistContainer from '../src/components/user/WishlistContainer';
+import Vue from 'vue'
+import Router from 'vue-router'
+import Homepage from '../src/components/homepage/Homepage'
+import ProductDetail from '../src/components/product_detail/ProductDetail'
+import WishlistContainer from '../src/components/user/WishlistContainer'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   mode: 'history', // removes hashbang from url
@@ -12,18 +12,18 @@ export default new Router({
     {
       path: '/',
       name: 'homepage-component',
-      component: Homepage,
+      component: Homepage
     },
     {
       path: '/product-detail/:id',
       name: 'product-detail-component',
       props: true,
-      component: ProductDetail,
+      component: ProductDetail
     },
     {
       path: '/wishlist',
       name: 'wishlist-container-component',
-      component: WishlistContainer,
+      component: WishlistContainer
     }
-  ],
-});
+  ]
+})

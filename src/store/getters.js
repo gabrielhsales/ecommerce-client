@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 export default {
   user: state => state.user.user,
   users: state => state.user,
@@ -20,7 +21,7 @@ export default {
     return state.products.data.find(product => product.id === id)
   },
   isUserLoggedIn: state => {
-    return state.user.token !== ''
+    return !isEmpty(state.user.token)
   },
   isUserSignedUp: state => {
     return state.user.isSignedUp

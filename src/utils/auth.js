@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'ecommerce-token'
-const RefreshTokenKey = 'ecommerce-refresh-token'
+const TokenKey = 'client-token'
+const RefreshTokenKey = 'client-refresh-token'
 
 export function getToken() {
   return Cookies.get(TokenKey)
