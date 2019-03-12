@@ -146,6 +146,7 @@ export default {
       this.$store.commit('addToCart', id)
       this.$store.commit('setAddedBtn', data)
     },
+
     removeFromCart(id) {
       let data = {
         id: id,
