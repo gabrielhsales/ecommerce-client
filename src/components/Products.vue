@@ -42,12 +42,12 @@
           <div class="buttons">
             <button
               class="button is-primary"
-              v-if="!product.isAddedToCart"
-              @click="addToCart(product.id)"
+              v-if="!isAddedToCart(product.id)"
+              @click="addToCart(product)"
             >{{ addToCartLabel }}</button>
             <button
               class="button is-text"
-              v-if="product.isAddedToCart"
+              v-else
               @click="removeFromCart(product.id, false)"
             >{{ removeFromCartLabel }}</button>
             <div>
@@ -72,12 +72,8 @@
                 </span>
               </button>
               <div class="select is-rounded is-small">
-                <select @change="onSelectQuantity(product.id)" v-model="selected">
-                  <option
-                    v-for="(quantity, index) in quantityArray"
-                    :value="quantity"
-                    :key="index"
-                  >{{ quantity }}</option>
+                <select @change="onSelectQuantity(product)" v-model="product.quantity">
+                  <option v-for="(qty, index) in 10" :value="qty" :key="index">{{ qty }}</option>
                 </select>
               </div>
             </div>
@@ -104,6 +100,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'products-component',
   props: ['product'],
@@ -116,45 +113,30 @@ export default {
       addToFavouriteLabel: 'Favorito',
       removeFromFavouriteLabel: 'Remover Favorito',
       selected: 1,
-      quantityArray: [],
       defaultImage: 'https://bulma.io/images/placeholders/1280x960.png'
     }
   },
 
   mounted() {
-    for (let i = 1; i <= 20; i++) {
-      this.quantityArray.push(i)
-    }
-
-    if (this.$props.product.quantity > 1) {
-      this.selected = this.$props.product.quantity
-    }
+    //
   },
 
   computed: {
-    isUserLogged() {
-      return this.$store.getters.isUserLoggedIn
-    }
+    ...mapGetters({
+      isUserLogged: 'isUserLoggedIn',
+      cartItems: 'productsAdded'
+    })
   },
 
   methods: {
-    addToCart(id) {
-      let data = {
-        id: id,
-        status: true
-      }
-      this.$store.commit('addToCart', id)
-      this.$store.commit('setAddedBtn', data)
+    addToCart(product) {
+      this.$store.dispatch('addToCart', product)
     },
 
     removeFromCart(id) {
-      let data = {
-        id: id,
-        status: false
-      }
-      this.$store.commit('removeFromCart', id)
-      this.$store.commit('setAddedBtn', data)
+      this.$store.dispatch('removeFromCart', id)
     },
+
     saveToFavorite(id) {
       let isUserLogged = this.$store.state.userInfo.isLoggedIn
 
@@ -164,15 +146,21 @@ export default {
         this.$store.commit('showLoginModal', true)
       }
     },
+
     removeFromFavourite(id) {
       this.$store.commit('removeFromFavourite', id)
     },
-    onSelectQuantity(id) {
-      let data = {
-        id: id,
-        quantity: this.selected
+
+    onSelectQuantity(product) {
+      this.$store.dispatch('updateItem', product)
+    },
+
+    isAddedToCart(id) {
+      const exists = this.cartItems.find(item => item.product_id === id)
+      if (exists) {
+        return true
       }
-      this.$store.commit('quantity', data)
+      return false
     }
   }
 }

@@ -4,12 +4,10 @@ export default {
   },
 
   mutations: {
-    ADD_ITEM: (state, newItem) => {
-      const item = {
-        product_id: newItem.id,
-        quantity: 1
-      }
-      state.items.push(item)
+    ADD_TO_CART: (state, product) => {
+      product.product_id = product.id
+      product.quantity = 1
+      state.items.push(product)
     },
 
     UPDATE_ITEM: (state, newItem) => {
@@ -21,8 +19,22 @@ export default {
       })
     },
 
-    REMOVE_ITEM: (state, oldItem) => {
-      state.items = state.items.filter(item => item.product_id !== oldItem.id)
+    REMOVE_ITEM: (state, product_id) => {
+      state.items = state.items.filter(item => item.product_id !== product_id)
+    }
+  },
+
+  actions: {
+    addToCart({ commit }, product) {
+      commit('ADD_TO_CART', product)
+    },
+
+    updateItem({ commit }, product) {
+      commit('UPDATE_ITEM', product)
+    },
+
+    removeFromCart({ commit }, product_id) {
+      commit('REMOVE_ITEM', product_id)
     }
   }
 }

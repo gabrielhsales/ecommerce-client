@@ -4,11 +4,7 @@ export default {
   users: state => state.user,
   products: state => state.products,
   productsAdded: state => {
-    return state.products.data
-      ? state.products.data.filter(el => {
-          return el.isAddedToCart
-        })
-      : []
+    return state.cart.items
   },
   productsAddedToFavourite: state => {
     return state.products.data
