@@ -3,6 +3,7 @@ export default {
   user: state => state.user.user,
   users: state => state.user,
   products: state => state.products,
+  searchTerm: state => state.system.searchTerm,
   productsAdded: state => {
     return state.cart.items
   },

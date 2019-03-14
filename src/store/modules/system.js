@@ -2,7 +2,8 @@ export default {
   state: {
     openLoginModal: false,
     openSignupModal: false,
-    openCheckoutModal: false
+    openCheckoutModal: false,
+    searchTerm: ''
   },
 
   mutations: {
@@ -14,10 +15,16 @@ export default {
     },
     showCheckoutModal: (state, show) => {
       state.openCheckoutModal = show
+    },
+
+    updateSearchTerm: (state, term) => {
+      state.searchTerm = term
     }
   },
 
   actions: {
-    //
+    localSearch({ commit }, term) {
+      commit('updateSearchTerm', term)
+    }
   }
 }

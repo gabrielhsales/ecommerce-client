@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import ProductsListContainer from '../products_list/ProductsListContainer';
-import HeroSection from '../hero/Hero';
+import ProductsListContainer from '../products_list/ProductsListContainer'
+import HeroSection from '../hero/Hero'
 
 export default {
   name: 'homepage-component',
   components: {
     'products-list-container': ProductsListContainer,
-    'hero': HeroSection
+    hero: HeroSection
   }
-};
+}
 </script>

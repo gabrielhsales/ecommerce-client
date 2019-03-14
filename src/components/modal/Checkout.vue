@@ -68,7 +68,10 @@ export default {
     },
 
     buyLabel() {
-      let totalProducts = this.products.length,
+      let totalProducts = this.products.reduce(
+          (acc, product) => acc + product.quantity,
+          0
+        ),
         productsAdded = this.$store.getters.productsAdded,
         pricesArray = [],
         productLabel = '',

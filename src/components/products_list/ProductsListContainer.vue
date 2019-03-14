@@ -1,6 +1,10 @@
 <template>
   <div class="columns is-centered is-multiline">
-    <div class="card column is-one-quarter" v-for="product in products.data" :key="product.id">
+    <div
+      class="card column is-one-quarter"
+      v-for="product in products.data.filter(prod => prod.name.toLowerCase().includes(searchTerm.toLowerCase()))"
+      :key="product.id"
+    >
       <products-component :product="product"></products-component>
     </div>
     <div class="section" v-if="products.data.length === 0">
@@ -31,7 +35,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      products: 'products'
+      products: 'products',
+      searchTerm: 'searchTerm'
     })
   },
 
