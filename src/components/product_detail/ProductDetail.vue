@@ -65,29 +65,25 @@
             </p>
           </div>
           <div class="select is-rounded is-small is-pulled-right">
-            <select @change="onSelectQuantity(product.id)" v-model="selected">
-              <option
-                v-for="(quantity, index) in quantityArray"
-                :value="quantity"
-                :key="index"
-              >{{ quantity }}</option>
+            <select @change="onSelectQuantity(product)" v-model="product.quantity">
+              <option v-for="(quantity, index) in 10" :value="quantity" :key="index">{{ quantity }}</option>
             </select>
           </div>
         </div>
         <div class="card-content__price is-pulled-left">
           <span class="title is-3">
-            <strong>{{ product.price }}&euro;</strong>
+            <strong>R$ {{ product.price }}</strong>
           </span>
         </div>
         <div class="card-content__btn is-pulled-right">
           <button
             class="button is-primary"
-            v-if="!isAddedBtn"
-            @click="addToCart(product.id)"
+            v-if="!product.isAddedToCart"
+            @click="addToCart(product)"
           >{{ addToCartLabel }}</button>
           <button
             class="button is-text"
-            v-if="isAddedBtn"
+            v-else
             @click="removeFromCart(product.id)"
           >{{ removeFromCartLabel }}</button>
         </div>
@@ -108,18 +104,12 @@ export default {
       removeFromFavouriteLabel: 'Remover dos Favoritos',
       product: {},
       selected: 1,
-      quantityArray: [],
       defaultImage: 'https://bulma.io/images/placeholders/480x480.png'
     }
   },
 
   mounted() {
     this.product = this.$store.getters.getProductById(this.$route.params.id)
-    this.selected = 1
-
-    for (let i = 1; i <= 20; i++) {
-      this.quantityArray.push(i)
-    }
   },
 
   computed: {
@@ -129,28 +119,14 @@ export default {
   },
 
   methods: {
-    addToCart(id) {
-      let data = {
-        id: id,
-        status: true
-      }
-      this.$store.commit('addToCart', id)
-      this.$store.commit('setAddedBtn', data)
+    addToCart(product) {
+      this.$store.dispatch('addToCart', product)
     },
     removeFromCart(id) {
-      let data = {
-        id: id,
-        status: false
-      }
-      this.$store.commit('removeFromCart', id)
-      this.$store.commit('setAddedBtn', data)
+      this.$store.dispatch('removeFromCart', id)
     },
-    onSelectQuantity(id) {
-      let data = {
-        id: id,
-        quantity: this.selected
-      }
-      this.$store.commit('quantity', data)
+    onSelectQuantity(product) {
+      this.$store.dispatch('updateItem', product)
     },
     saveToFavorite(id) {
       let isUserLogged = this.$store.state.userInfo.isLoggedIn

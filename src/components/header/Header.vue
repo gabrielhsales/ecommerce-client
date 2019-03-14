@@ -69,8 +69,7 @@ export default {
 
   computed: {
     numProductsAdded() {
-      return 0
-      // return this.$store.getters.productsAdded.length
+      return this.$store.getters.productsAdded.length
     }
   },
 

@@ -13,8 +13,8 @@
               class="is-pulled-right button is-info is-inverted"
               @click="removeFromCart(product.id)"
             >{{ removeLabel }}</button>
-            <p>{{ product.title }} {{ product.quantity > 0 ? ` - Quantity: ${product.quantity}` : ''}}</p>
-            <p>{{ product.price }} &euro;</p>
+            <p>{{ product.name }} {{ product.quantity > 0 ? ` x ${product.quantity}` : ''}}</p>
+            <p>R&dollar; {{ product.price }}</p>
           </div>
           <div v-if="products.length === 0">
             <p>{{ cartEmptyLabel }}</p>
@@ -58,6 +58,7 @@ export default {
     products() {
       return this.$store.getters.productsAdded
     },
+
     openModal() {
       if (this.$store.getters.isCheckoutModalOpen) {
         return true
@@ -65,6 +66,7 @@ export default {
         return false
       }
     },
+
     buyLabel() {
       let totalProducts = this.products.length,
         productsAdded = this.$store.getters.productsAdded,
@@ -85,12 +87,13 @@ export default {
 
       if (totalProducts > 1) {
         // set plural or singular
-        productLabel = 'products'
+        productLabel = 'produtos'
       } else {
-        productLabel = 'product'
+        productLabel = 'produto'
       }
-      return `Buy ${totalProducts} ${productLabel} at ${finalPrice}€`
+      return `Comprar ${totalProducts} ${productLabel} por R$ ${finalPrice}`
     },
+
     isUserLoggedIn() {
       return this.$store.getters.isUserLoggedIn
     }
@@ -104,14 +107,11 @@ export default {
         window.location.reload()
       }
     },
+
     removeFromCart(id) {
-      let data = {
-        id: id,
-        status: false
-      }
-      this.$store.commit('removeFromCart', id)
-      this.$store.commit('setAddedBtn', data)
+      this.$store.dispatch('removeFromCart', id)
     },
+
     onNextBtn() {
       if (this.isUserLoggedIn) {
         this.isCheckoutSection = true
