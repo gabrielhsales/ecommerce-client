@@ -20,7 +20,11 @@
         </p>
       </div>
     </div>
-    <div v-if="isUserLoggedIn" class="navbar-item has-dropdown is-hoverable">
+    <div
+      v-if="isUserLoggedIn"
+      class="navbar-item has-dropdown is-hoverable"
+      style="margin-top:-10px"
+    >
       <a class="navbar-link">Olá, {{ user.name }}!</a>
       <div class="navbar-dropdown is-boxed">
         <router-link
