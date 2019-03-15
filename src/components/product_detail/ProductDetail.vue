@@ -78,7 +78,7 @@
         <div class="card-content__btn is-pulled-right">
           <button
             class="button is-primary"
-            v-if="!product.isAddedToCart"
+            v-if="!isAddedToCart(product.id)"
             @click="addToCart(product)"
           >{{ addToCartLabel }}</button>
           <button
@@ -93,6 +93,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'product-detail-component',
 
@@ -115,7 +117,10 @@ export default {
   computed: {
     isAddedBtn() {
       return this.product.isAddedBtn
-    }
+    },
+    ...mapGetters({
+      cartItems: 'productsAdded'
+    })
   },
 
   methods: {
@@ -139,6 +144,18 @@ export default {
     },
     removeFromFavourite(id) {
       this.$store.commit('removeFromFavourite', id)
+    },
+
+    onSelectQuantity(product) {
+      this.$store.dispatch('updateItem', product)
+    },
+
+    isAddedToCart(id) {
+      const exists = this.cartItems.find(item => item.product_id === id)
+      if (exists) {
+        return true
+      }
+      return false
     }
   }
 }

@@ -30,8 +30,8 @@
         <!-- <router-link
           class="navbar-item"
           :to="{ path: '/wishlist', name: 'wishlist-container-component' }"
-        >{{ wishlistLabel }}</router-link>-->
-        <hr class="navbar-divider">
+        >{{ wishlistLabel }}</router-link>
+        <hr class="navbar-divider">-->
         <a class="navbar-item" @click="logout">{{ logoutLabel }}</a>
       </div>
     </div>
