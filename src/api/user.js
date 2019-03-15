@@ -6,3 +6,11 @@ export function getUser() {
     method: 'get'
   })
 }
+
+export function checkout(items) {
+  return request({
+    url: 'orders',
+    method: 'post',
+    data: { items }
+  })
+}

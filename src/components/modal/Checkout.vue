@@ -21,7 +21,7 @@
           </div>
         </div>
         <div v-if="isCheckoutSection">
-          <p>You bought it :-)</p>
+          <p>Seu Pedido foi recebido!</p>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -117,7 +117,7 @@ export default {
 
     onNextBtn() {
       if (this.isUserLoggedIn) {
-        this.isCheckoutSection = true
+        this.sendOrder()
       } else {
         this.$store.commit('showCheckoutModal', false)
         this.$store.commit('showLoginModal', true)
@@ -125,6 +125,17 @@ export default {
     },
     onPrevBtn() {
       this.isCheckoutSection = false
+    },
+
+    sendOrder() {
+      this.$store
+        .dispatch('checkout')
+        .then(() => {
+          this.isCheckoutSection = true
+        })
+        .catch(e => {
+          this.isCheckoutSection = false
+        })
     }
   }
 }

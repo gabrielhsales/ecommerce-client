@@ -27,10 +27,10 @@
     >
       <a class="navbar-link">Olá, {{ user.name }}!</a>
       <div class="navbar-dropdown is-boxed">
-        <router-link
+        <!-- <router-link
           class="navbar-item"
           :to="{ path: '/wishlist', name: 'wishlist-container-component' }"
-        >{{ wishlistLabel }}</router-link>
+        >{{ wishlistLabel }}</router-link>-->
         <hr class="navbar-divider">
         <a class="navbar-item" @click="logout">{{ logoutLabel }}</a>
       </div>

@@ -1,3 +1,4 @@
+import { checkout } from '@/api/user'
 export default {
   state: {
     items: []
@@ -35,6 +36,20 @@ export default {
 
     removeFromCart({ commit }, product_id) {
       commit('REMOVE_ITEM', product_id)
+    },
+
+    checkout({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        const items = state.items.map(item => {
+          return {
+            product_id: item.product_id,
+            quantity: item.quantity
+          }
+        })
+        checkout(items)
+          .then(({ data }) => resolve(data))
+          .catch(e => reject(e))
+      })
     }
   }
 }
