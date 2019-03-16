@@ -7,7 +7,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://localhost:3333/v1/',
+  baseURL: process.env.VUE_APP_API_URL,
   timeout: 1000 * 60 // request timeout
 })
 

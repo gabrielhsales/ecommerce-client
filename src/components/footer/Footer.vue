@@ -6,6 +6,7 @@
       </div>
       <div class="column has-text-right">
         <p>E-commerce Client | Feito com ❤</p>
+        <p>API URL {{base_url}}</p>
       </div>
     </div>
   </div>
@@ -13,7 +14,13 @@
 
 <script>
 export default {
-  name: 'footer-component'
+  name: 'footer-component',
+
+  data() {
+    return {
+      base_url: process.env.VUE_APP_API_URL
+    }
+  }
 }
 </script>
 
