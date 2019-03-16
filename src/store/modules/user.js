@@ -1,5 +1,5 @@
 import { getUser } from '@/api/user'
-import { login, logout } from '@/api/auth'
+import { login, logout, register } from '@/api/auth'
 
 import {
   getToken,
@@ -34,7 +34,7 @@ export default {
   },
 
   actions: {
-    login({ commit, dispatch }, { email, password }) {
+    login({ commit }, { email, password }) {
       return new Promise((resolve, reject) => {
         login(email, password)
           .then(({ data }) => {
@@ -68,6 +68,14 @@ export default {
             removeRefreshToken()
             resolve()
           })
+          .catch(e => reject(e))
+      })
+    },
+
+    register({ commit }, user) {
+      return new Promise((resolve, reject) => {
+        register(user)
+          .then(({ data }) => resolve(data))
           .catch(e => reject(e))
       })
     }

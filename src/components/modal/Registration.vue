@@ -33,6 +33,26 @@
             <div class="field">
               <p class="control has-icons-left has-icons-right">
                 <input
+                  :class="[highlightSurnameWithError ? 'input is-danger' : 'input']"
+                  type="text"
+                  :placeholder="surnamePlaceHolder"
+                  v-model="surname"
+                  @keyup="checkSurnameOnKeyUp(surname)"
+                >
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <span v-if="highlightSurnameWithError !== null" class="icon is-small is-right">
+                  <i
+                    :class="[highlightSurnameWithError ? 'fas fa-exclamation-circle' : 'fas fa-check']"
+                  ></i>
+                </span>
+              </p>
+              <p v-if="highlightSurnameWithError" class="help is-danger">{{ surnameErrorLabel }}</p>
+            </div>
+            <div class="field">
+              <p class="control has-icons-left has-icons-right">
+                <input
                   :class="[highlightEmailWithError ? 'input is-danger' : 'input']"
                   type="email"
                   :placeholder="emailPlaceholder"
@@ -77,8 +97,8 @@
                   :class="[highlightRepeatPasswordWithError ? 'input is-danger' : 'input']"
                   type="password"
                   :placeholder="repeatPasswordPlaceholder"
-                  v-model="repeatPassword"
-                  @keyup="checkRepeatPasswordOnKeyUp(repeatPassword)"
+                  v-model="password_confirmation"
+                  @keyup="checkRepeatPasswordOnKeyUp(password_confirmation)"
                 >
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
@@ -134,30 +154,32 @@ export default {
       primaryBtnLabel: 'Cadastrar',
       btnRegisteredLabel: 'Fechar',
       namePlaceholder: 'Nome*',
+      surnamePlaceHolder: 'Sobrenome*',
       emailPlaceholder: 'Email*',
       passwordPlaceholder: 'Senha*',
       repeatPasswordPlaceholder: 'Repetir Senha*',
       notEqualErrorLabel: 'As senhas precisam ser Iguais',
       passwordErrorLabel: 'Senha Obrigatória',
       nameErrorLabel: 'Nome obrigatório',
+      surnameErrorLabel: 'Sobrenome é Obrigatório',
       emailErrorLabel: 'E-mail obrigatório',
       emailNotValidLabel: 'E-mail válido obrigatório',
       name: '',
+      surname: '',
       email: '',
       password: '',
-      repeatPassword: '',
+      password_confirmation: '',
       highlightNameWithError: null,
+      highlightSurnameWithError: null,
       highlightEmailWithError: null,
       highlightPasswordWithError: null,
       highlightRepeatPasswordWithError: null,
-      isFormSuccess: false
+      isFormSuccess: false,
+      isUserSignedUp: false
     }
   },
 
   computed: {
-    isUserSignedUp() {
-      return this.$store.getters.isUserSignedUp
-    },
     openModal() {
       if (this.$store.getters.isSignupModalOpen) {
         return true
@@ -174,19 +196,44 @@ export default {
     checkForm(e) {
       e.preventDefault()
 
-      if (this.name && this.email && this.password && this.repeatPassword) {
+      if (
+        this.name &&
+        this.surname &&
+        this.email &&
+        this.password &&
+        this.password_confirmation
+      ) {
         this.highlightEmailWithError = false
+        this.highlightSurnameWithError = false
         this.highlightPasswordWithError = false
         this.isFormSuccess = true
-        this.$store.commit('setUserName', this.name)
-        this.$store.commit('isUserSignedUp', this.isFormSuccess)
-        this.$store.commit('isUserLoggedIn', this.isFormSuccess)
+        this.$store
+          .dispatch('register', {
+            name: this.name,
+            surname: this.surname,
+            email: this.email,
+            password: this.password,
+            password_confirmation: this.password_confirmation
+          })
+          .then(data => {
+            this.isUserSignedUp = true
+            this.closeModal()
+          })
+          .catch(e => {
+            this.isUserSignedUp = false
+          })
       }
 
       if (!this.name) {
         this.highlightNameWithError = true
       } else {
         this.highlightNameWithError = false
+      }
+
+      if (!this.surname) {
+        this.highlightSurnameWithError = true
+      } else {
+        this.highlightSurnameWithError = false
       }
 
       if (!this.email) {
@@ -205,7 +252,7 @@ export default {
         this.highlightPasswordWithError = false
       }
 
-      if (!this.repeatPassword) {
+      if (!this.password_confirmation) {
         this.highlightRepeatPasswordWithError = true
       } else {
         this.highlightRepeatPasswordWithError = false
@@ -218,6 +265,15 @@ export default {
         this.highlightNameWithError = true
       }
     },
+
+    checkSurnameOnKeyUp(surname) {
+      if (surname) {
+        this.highlightSurnameWithError = false
+      } else {
+        this.highlightSurnameWithError = true
+      }
+    },
+
     checkEmailOnKeyUp(emailValue) {
       if (emailValue && isValidEmail(emailValue)) {
         this.highlightEmailWithError = false
@@ -229,11 +285,12 @@ export default {
         }
       }
     },
+
     checkPasswordOnKeyUp(passwordValue) {
       if (passwordValue) {
         this.highlightPasswordWithError = false
 
-        if (this.repeatPassword === this.password) {
+        if (this.password_confirmation === this.password) {
           this.highlightRepeatPasswordWithError = false
         } else {
           this.highlightRepeatPasswordWithError = true
@@ -242,6 +299,7 @@ export default {
         this.highlightPasswordWithError = true
       }
     },
+
     checkRepeatPasswordOnKeyUp(repeatPasswordValue) {
       if (repeatPasswordValue) {
         if (repeatPasswordValue === this.password) {
